@@ -8,7 +8,7 @@ def getFileList(folderName: str) -> [str]:
 
 def getHeaderListFromINI(filename: str, addFileName=True) -> [str]:
     headerList = []
-    
+
     if addFileName:
         headerList = ['INIFileName']
     with open(filename) as inputFile:
@@ -49,14 +49,14 @@ def writeToCSV(folderName: str, outputFile: str, addFileName=True):
             outputFile.write('\n')
 
 if __name__ == "__main__":
-    # folderName = input("Folder Name: ")
-    folderName = "ConcurrentPoolScalability"
+    folderName = input('Folder Name: ')
+    outputFileName = input('Ouput CSV filename: ')
 
     fileNameFlag = input('Add filename to csv? (y/n): ')
     if fileNameFlag == 'y':
-        writeToCSV(folderName, 'test.csv')
+        writeToCSV(folderName, outputFileName)
     elif fileNameFlag == 'n':
-        writeToCSV(folderName, 'test.csv', False)
+        writeToCSV(folderName, outputFileName, False)
     else:
         print('Invalid choice')
         exit(1)
