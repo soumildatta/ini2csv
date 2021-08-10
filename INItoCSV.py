@@ -6,8 +6,9 @@ def getFileList(folderName: str) -> [str]:
     onlyfiles: [str] = [os.path.join(folderName, file) for file in os.listdir(folderName) if os.path.isfile(os.path.join(folderName, file)) and file.endswith(".INI")]
     return onlyfiles
 
-def getHeaderListFromINI(filename: str) -> [str]:
-    headerList = ['INIFileName']
+def getHeaderListFromINI(filename: str, addFileName=True) -> [str]:
+    if addFileName:
+        headerList = ['INIFileName']
     with open(filename) as inputFile:
         for line in inputFile:
             attribute = line.split("=")[0].strip()
@@ -28,21 +29,32 @@ def formatCSVLine(list: [str]) -> str:
         string += f", {list[i]}"
     return string
 
-def writeToCSV(folderName: str, outputFile: str):
+def writeToCSV(folderName: str, outputFile: str, addFileName=True):
     fileList = getFileList(folderName)
 
     with open(outputFile, 'w') as outputFile:
-        outputFile.write(formatCSVLine(getHeaderListFromINI(fileList[0])))
+        if addFileName:
+            outputFile.write(formatCSVLine(getHeaderListFromINI(fileList[0])))
+        else:
+            outputFile.write(formatCSVLine(getHeaderListFromINI(fileList[0])), False)
+
         outputFile.write('\n')
         # for loop iterating through each file
         for inputFile in fileList:
-            outputFile.write(inputFile.split('/')[1] + ', ')
+            if addFileName:
+                outputFile.write(inputFile.split('/')[1] + ', ')
             outputFile.write(formatCSVLine(getValueListFromINI(inputFile)))
             outputFile.write('\n')
 
 if __name__ == "__main__":
     # folderName = input("Folder Name: ")
     folderName = "ConcurrentPoolScalability"
-    # print(getFileList(folderName))
-    # print(formatCSVLine(getHeaderListFromINI(f"{folderName}/NVIDIA GeForce RTX 3090^ConcurrentPoolScalability^USA-NY.CSR^128^1.INI")))
-    writeToCSV(folderName, 'test.csv')
+
+    fileNameFlag = input('Add filename to csv? (y/n): ')
+    if fileNameFlag == 'y':
+        writeToCSV(folderName, 'test.csv')
+    elif fileNameFlag == 'n':
+        writeToCSV(folderName, 'test.csv', False)
+    else:
+        print('Invalid choice')
+        exit(1)
