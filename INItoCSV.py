@@ -44,6 +44,5 @@ def writeToCSV(folderName: str, outputFile: str):
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         print('Usage: INItoCSV.py {inputFolderName} {outputFileName}')
-        exit(1)
     else:
         writeToCSV(sys.argv[1], sys.argv[2])
