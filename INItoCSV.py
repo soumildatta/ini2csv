@@ -1,6 +1,5 @@
 # Author: Soumil Datta
 # Script lives inside Results/
-
 import os
 
 def getFileList(folderName: str) -> [str]:
@@ -8,12 +7,20 @@ def getFileList(folderName: str) -> [str]:
     return onlyfiles
 
 def getHeaderListFromINI(filename: str) -> [str]:
-    headerList = []
+    headerList = ['INIFileName']
     with open(filename) as inputFile:
         for line in inputFile:
             attribute = line.split("=")[0].strip()
             headerList.append(attribute)
     return headerList
+
+def getValueListFromINI(filename: str) -> [str]:
+    fileList = []
+    with open(filename) as inputFile:
+        for line in inputFile:
+            attribute = line.split('=')[1].strip()
+            fileList.append(attribute)
+    return fileList
 
 def formatCSVLine(list: [str]) -> str:
     string = list[0]
@@ -25,11 +32,17 @@ def writeToCSV(folderName: str, outputFile: str):
     fileList = getFileList(folderName)
 
     with open(outputFile, 'w') as outputFile:
-        outputFile.writelines(formatCSVLine(getHeaderListFromINI(fileList[0])))
+        outputFile.write(formatCSVLine(getHeaderListFromINI(fileList[0])))
+        outputFile.write('\n')
+        # for loop iterating through each file
+        for inputFile in fileList:
+            outputFile.write(inputFile.split('/')[1] + ', ')
+            outputFile.write(formatCSVLine(getValueListFromINI(inputFile)))
+            outputFile.write('\n')
 
 if __name__ == "__main__":
     # folderName = input("Folder Name: ")
     folderName = "ConcurrentPoolScalability"
     # print(getFileList(folderName))
     # print(formatCSVLine(getHeaderListFromINI(f"{folderName}/NVIDIA GeForce RTX 3090^ConcurrentPoolScalability^USA-NY.CSR^128^1.INI")))
-    writeToCSV(folderName, "test.csv")
+    writeToCSV(folderName, 'test.csv')
