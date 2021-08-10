@@ -1,16 +1,14 @@
 # Author: Soumil Datta
 # Script lives inside Results/
 import os
+import sys
 
 def getFileList(folderName: str) -> [str]:
     onlyfiles: [str] = [os.path.join(folderName, file) for file in os.listdir(folderName) if os.path.isfile(os.path.join(folderName, file)) and file.endswith(".INI")]
     return onlyfiles
 
-def getHeaderListFromINI(filename: str, addFileName=True) -> [str]:
-    headerList = []
-
-    if addFileName:
-        headerList = ['INIFileName']
+def getHeaderListFromINI(filename: str) -> [str]:
+    headerList = ['INIFileName']
     with open(filename) as inputFile:
         for line in inputFile:
             attribute = line.split("=")[0].strip()
@@ -31,32 +29,21 @@ def formatCSVLine(list: [str]) -> str:
         string += f", {list[i]}"
     return string
 
-def writeToCSV(folderName: str, outputFile: str, addFileName=True):
+def writeToCSV(folderName: str, outputFile: str):
     fileList = getFileList(folderName)
 
     with open(outputFile, 'w') as outputFile:
-        if addFileName:
-            outputFile.write(formatCSVLine(getHeaderListFromINI(fileList[0])))
-        else:
-            outputFile.write(formatCSVLine(getHeaderListFromINI(fileList[0], False)))
-
+        outputFile.write(formatCSVLine(getHeaderListFromINI(fileList[0])))
         outputFile.write('\n')
         # for loop iterating through each file
         for inputFile in fileList:
-            if addFileName:
-                outputFile.write(inputFile.split('/')[1] + ', ')
+            outputFile.write(inputFile.split('/')[1] + ', ')
             outputFile.write(formatCSVLine(getValueListFromINI(inputFile)))
             outputFile.write('\n')
 
 if __name__ == "__main__":
-    folderName = input('Folder Name: ')
-    outputFileName = input('Ouput CSV filename: ')
-
-    fileNameFlag = input('Add filename to csv? (y/n): ')
-    if fileNameFlag == 'y':
-        writeToCSV(folderName, outputFileName)
-    elif fileNameFlag == 'n':
-        writeToCSV(folderName, outputFileName, False)
-    else:
-        print('Invalid choice')
+    if len(sys.argv) != 3:
+        print('Usage: INItoCSV.py {inputFolderName} {outputFileName}')
         exit(1)
+    else:
+        writeToCSV(sys.argv[1], sys.argv[2])
