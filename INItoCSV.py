@@ -7,6 +7,8 @@ def getFileList(folderName: str) -> [str]:
     return onlyfiles
 
 def getHeaderListFromINI(filename: str, addFileName=True) -> [str]:
+    headerList = []
+    
     if addFileName:
         headerList = ['INIFileName']
     with open(filename) as inputFile:
@@ -36,7 +38,7 @@ def writeToCSV(folderName: str, outputFile: str, addFileName=True):
         if addFileName:
             outputFile.write(formatCSVLine(getHeaderListFromINI(fileList[0])))
         else:
-            outputFile.write(formatCSVLine(getHeaderListFromINI(fileList[0])), False)
+            outputFile.write(formatCSVLine(getHeaderListFromINI(fileList[0], False)))
 
         outputFile.write('\n')
         # for loop iterating through each file
