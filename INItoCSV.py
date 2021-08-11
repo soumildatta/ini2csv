@@ -42,7 +42,7 @@ def writeToCSV(folderName: str, outputFile: str):
             outputFile.write('\n')
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 2:
         print('Usage: INItoCSV.py {inputFolderName} {outputFileName}')
     else:
         writeToCSV(sys.argv[1], sys.argv[2])
