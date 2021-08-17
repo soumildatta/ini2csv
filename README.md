@@ -5,5 +5,9 @@ This is a simple utility script that converts a folder of .ini files with identi
 
 ## Usage
 To run this script, open a terminal and type:   
-```python INItoCSV.py <inputFolderName> <outputFileName>```   
-Replace **<inputFolderName>** with the name of the folder consisting the .ini files. Replace <outputFileName> with the output csv file name including the .csv extention.
+```python INItoCSV.py <outputFileName> <list of files separated by spaces>```   
+Replace <outputFileName> with the output csv file name including the .csv extention. Here is an example run of the program with the correct arguments:     
+```python INItoCSV.py convertedINI.csv file1.ini file2.ini file3.ini file4.ini```      
+The addition of files as arguments can be simplified by letting bash expand the path for you with the use of *. An example is shown below, where the .ini files are persent in a folder called "Test":    
+```python INItoCSV.py convertedINI.csv Test/*.ini```     
+Test/*.ini will expand to the path of each of the .ini file inside the "Test" folder. 
