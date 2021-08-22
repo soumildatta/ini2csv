@@ -1,5 +1,4 @@
 # Author: Soumil Datta
-# Script lives inside Results/
 import os
 import sys
 
