@@ -1,5 +1,5 @@
 # INI2CSV
-![](https://img.shields.io/badge/python-3.9-lgreen)
+![](https://img.shields.io/badge/python-3.9-lgreen)  [![PyPI Version](https://img.shields.io/pypi/v/ini2csv.svg)](https://pypi.python.org/pypi/ini2csv)
 </br></br>
  A simple utility that converts and combines a folder of .ini files with identical keys into one csv file. The keys of the .ini files become the headers of the csv file, and the values of each file become a row.
 
