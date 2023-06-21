@@ -1,4 +1,5 @@
 # Author: Soumil Datta
+from fileinput import filename
 from typing import Dict, List
 import os
 import sys
@@ -63,10 +64,14 @@ def processFolder(folderPath: str, outputFilename: str):
     files = [f'{folderPath}/{file}' for file in os.listdir(folderPath)]
     writeToCSV(outputFilename, files)
 
-if __name__ == "__main__":
-    # Parse command line for input folder and output file
-    if len(sys.argv) < 3:
-        print('Usage: INItoCSV.py <outputFileName> [inputFiles ... ]')
-    else:
-        # Parse cmd args to create list of files passed in
-        processFolder(sys.argv[2], sys.argv[1])
+def processFiles(fileNames: List[str], outputFilename: str):
+    writeToCSV(outputFilename, fileNames)
+
+# if __name__ == "__main__":
+#     # Parse command line for input folder and output file
+#     # if len(sys.argv) < 3:
+#     #     print('Usage: INItoCSV.py <outputFileName> [inputFiles ... ]')
+#     # else:
+#     # Parse cmd args to create list of files passed in
+#     processFolder('Test', 'outputfile2.csv')
+#     # processFiles(['Test/test1.INI', 'Test/test3.INI'], 'outputFile.csv')
