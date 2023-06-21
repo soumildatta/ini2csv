@@ -15,12 +15,12 @@ import initocsv
 ```
 
 ### Included functions
-INItoCSV has two main functions: `processFolder` and `processFiles`
-Each of these functions take two arguments. `processFolder` takes in the __folder name__ and __output .csv file name__ as arguments. `processFiles` similarly takes __a list of file names__ and __output .csv file name__ as arguments.
+INItoCSV has two main functions: `process_folder` and `process_files`
+Each of these functions take two arguments. `process_folder` takes in the __folder name__ and __output .csv file name__ as arguments. `process_files` similarly takes __a list of file names__ and __output .csv file name__ as arguments.
 ```py
 # Argument list
-processFolder(folderName: str, outputFilename: str)
-processFiles(fileNames: List[str], outputFilename: str)
+process_folder(folder_name: str, output_filename: str)
+process_files(file_names: List[str], output_filename: str)
 ```
 
 ## Use Case

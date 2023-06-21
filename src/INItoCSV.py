@@ -60,18 +60,11 @@ def writeToCSV(outputFile: str, fileList: List[str]):
             outputFile.write(processValueDictToString(filename, valueDict))
             outputFile.write('\n')
 
-def processFolder(folderPath: str, outputFilename: str):
-    files = [f'{folderPath}/{file}' for file in os.listdir(folderPath)]
-    writeToCSV(outputFilename, files)
+# Process a folder of .ini files into an output .csv file
+def process_folder(folder_name: str, output_filename: str):
+    files = [f'{folder_name}/{file}' for file in os.listdir(folder_name)]
+    writeToCSV(output_filename, files)
 
-def processFiles(fileNames: List[str], outputFilename: str):
-    writeToCSV(outputFilename, fileNames)
-
-# if __name__ == "__main__":
-#     # Parse command line for input folder and output file
-#     # if len(sys.argv) < 3:
-#     #     print('Usage: INItoCSV.py <outputFileName> [inputFiles ... ]')
-#     # else:
-#     # Parse cmd args to create list of files passed in
-#     processFolder('Test', 'outputfile2.csv')
-#     # processFiles(['Test/test1.INI', 'Test/test3.INI'], 'outputFile.csv')
+# Process a list of .ini files into an output .csv file
+def process_files(file_names: List[str], output_filename: str):
+    writeToCSV(output_filename, file_names)
