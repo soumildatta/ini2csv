@@ -1,0 +1,11 @@
+LICENSE
+README.md
+setup.cfg
+setup.py
+ini2csv/__init__.py
+ini2csv/ini2csv.py
+ini2csv/version.py
+ini2csv.egg-info/PKG-INFO
+ini2csv.egg-info/SOURCES.txt
+ini2csv.egg-info/dependency_links.txt
+ini2csv.egg-info/top_level.txt
