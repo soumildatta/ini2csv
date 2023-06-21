@@ -1,11 +1,12 @@
 # Author: Soumil Datta
+from typing import Dict, List
 import os
 import sys
 
 masterHeaderList = ['INIFileName']
 
 # Make a pass through all files adding to the master header list
-def getMasterHeaderListFromINI(fileList: [str]) -> [str]:
+def getMasterHeaderListFromINI(fileList: List[str]) -> List[str]:
     for inputFile in fileList:
         with open(inputFile) as currentFile:
             for line in currentFile:
@@ -16,7 +17,7 @@ def getMasterHeaderListFromINI(fileList: [str]) -> [str]:
 
 
 # Returns a string list of the values in a specified ini file
-def getValueDictFromINI(filename: str) -> {str:str}:
+def getValueDictFromINI(filename: str) -> Dict[str, str]:
     fileDict = {}
     with open(filename) as inputFile:
         for line in inputFile:
@@ -28,7 +29,7 @@ def getValueDictFromINI(filename: str) -> {str:str}:
 
 
 # Adds the proper commas and spaces to a list of strings
-def formatCSVLine(list: [str]) -> str:
+def formatCSVLine(list: List[str]) -> str:
     string = list[0]
     for i in range(1, len(list)):
         string += f", {list[i]}"
@@ -36,7 +37,7 @@ def formatCSVLine(list: [str]) -> str:
 
 
 # Uses the key, value dictionary to check against the masterHeaderList and output the string
-def processValueDictToString(filename: str, valueDict: {str:str}) -> str:
+def processValueDictToString(filename: str, valueDict: Dict[str, str]) -> str:
     string = filename
     for i in range(1, len(masterHeaderList)):
         key = masterHeaderList[i]
@@ -46,9 +47,9 @@ def processValueDictToString(filename: str, valueDict: {str:str}) -> str:
 
 
 # Write entries for each file into the output CSV file
-def writeToCSV(outputFile: str, fileList: [str]):
+def writeToCSV(outputFile: str, fileList: List[str]):
     with open(outputFile, 'w') as outputFile:
-        outputFile.write(formatCSVLine(getMasterHeaderListFromINI(filelist)))
+        outputFile.write(formatCSVLine(getMasterHeaderListFromINI(fileList)))
         outputFile.write('\n')
 
         for inputFile in fileList:
@@ -58,6 +59,9 @@ def writeToCSV(outputFile: str, fileList: [str]):
             outputFile.write(processValueDictToString(filename, valueDict))
             outputFile.write('\n')
 
+def processFolder(folderPath: str, outputFilename: str):
+    files = [f'{folderPath}/{file}' for file in os.listdir(folderPath)]
+    writeToCSV(outputFilename, files)
 
 if __name__ == "__main__":
     # Parse command line for input folder and output file
@@ -65,9 +69,4 @@ if __name__ == "__main__":
         print('Usage: INItoCSV.py <outputFileName> [inputFiles ... ]')
     else:
         # Parse cmd args to create list of files passed in
-        filelist = []
-        for i in range(2, len(sys.argv)):
-            filelist.append(sys.argv[i])
-
-        writeToCSV(sys.argv[1], filelist)
-        print(f'Successfully written to {sys.argv[1]}')
+        processFolder(sys.argv[2], sys.argv[1])
