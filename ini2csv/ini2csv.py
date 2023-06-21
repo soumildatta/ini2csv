@@ -1,13 +1,12 @@
 # Author: Soumil Datta
-from fileinput import filename
 from typing import Dict, List
 import os
 import sys
 
 masterHeaderList = ['INIFileName']
 
-# Make a pass through all files adding to the master header list
-def getMasterHeaderListFromINI(fileList: List[str]) -> List[str]:
+def _getMasterHeaderListFromINI(fileList: List[str]) -> List[str]:
+    '''Make a pass through all files adding to the master header list'''
     for inputFile in fileList:
         with open(inputFile) as currentFile:
             for line in currentFile:
@@ -17,8 +16,8 @@ def getMasterHeaderListFromINI(fileList: List[str]) -> List[str]:
     return masterHeaderList
 
 
-# Returns a string list of the values in a specified ini file
-def getValueDictFromINI(filename: str) -> Dict[str, str]:
+def _getValueDictFromINI(filename: str) -> Dict[str, str]:
+    '''Returns a string list of the values in a specified ini file'''
     fileDict = {}
     with open(filename) as inputFile:
         for line in inputFile:
@@ -29,16 +28,16 @@ def getValueDictFromINI(filename: str) -> Dict[str, str]:
     return fileDict
 
 
-# Adds the proper commas and spaces to a list of strings
-def formatCSVLine(list: List[str]) -> str:
+def _formatCSVLine(list: List[str]) -> str:
+    '''Adds the proper commas and spaces to a list of strings'''
     string = list[0]
     for i in range(1, len(list)):
         string += f", {list[i]}"
     return string
 
 
-# Uses the key, value dictionary to check against the masterHeaderList and output the string
-def processValueDictToString(filename: str, valueDict: Dict[str, str]) -> str:
+def _processValueDictToString(filename: str, valueDict: Dict[str, str]) -> str:
+    '''Uses the key, value dictionary to check against the masterHeaderList and output the string'''
     string = filename
     for i in range(1, len(masterHeaderList)):
         key = masterHeaderList[i]
@@ -46,25 +45,24 @@ def processValueDictToString(filename: str, valueDict: Dict[str, str]) -> str:
         string += f", {valueDict.get(key, '')}"
     return string
 
-
-# Write entries for each file into the output CSV file
-def writeToCSV(outputFile: str, fileList: List[str]):
+def _write_to_csv(outputFile: str, fileList: List[str]):
+    '''Writes entries for each file into the output CSV file'''
     with open(outputFile, 'w') as outputFile:
-        outputFile.write(formatCSVLine(getMasterHeaderListFromINI(fileList)))
+        outputFile.write(_formatCSVLine(_getMasterHeaderListFromINI(fileList)))
         outputFile.write('\n')
 
         for inputFile in fileList:
             # Get the filename for the first column
             filename = inputFile.split('/')[1]
-            valueDict = getValueDictFromINI(inputFile)
-            outputFile.write(processValueDictToString(filename, valueDict))
+            valueDict = _getValueDictFromINI(inputFile)
+            outputFile.write(_processValueDictToString(filename, valueDict))
             outputFile.write('\n')
 
-# Process a folder of .ini files into an output .csv file
 def process_folder(folder_name: str, output_filename: str):
+    '''Processes a folder of .ini files into an output .csv file'''
     files = [f'{folder_name}/{file}' for file in os.listdir(folder_name)]
-    writeToCSV(output_filename, files)
+    _write_to_csv(output_filename, files)
 
-# Process a list of .ini files into an output .csv file
 def process_files(file_names: List[str], output_filename: str):
-    writeToCSV(output_filename, file_names)
+    '''Process a list of .ini files into an output .csv file'''
+    _write_to_csv(output_filename, file_names)

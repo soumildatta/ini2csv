@@ -1,7 +1,0 @@
-LICENSE
-README.md
-setup.py
-src/initocsv.egg-info/PKG-INFO
-src/initocsv.egg-info/SOURCES.txt
-src/initocsv.egg-info/dependency_links.txt
-src/initocsv.egg-info/top_level.txt
